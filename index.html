@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			html{
+				height: 100%;
+			}
+			body{
+				padding: 0;
+				margin: 0;
+				height: 100%;
+				background: url(bg.jpg) no-repeat;
+				background-size: cover;
+			}
+			img{
+				width: 20px;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="move.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function Fireworm(){
+				this.Node = document.createElement("img");
+				this.Node.src = "1.jpg";
+			}
+			//随机显示，randPos();
+			//首先萤火虫要显示show()
+			//显示出来之后要飞fly()
+			//在原型对象里的this是指向实例
+			Fireworm.prototype.randPos = function(){
+				var clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
+				var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+				
+				this.posX = Math.floor(Math.random()*clientWidth-20);
+				this.posY = Math.floor(Math.random()*clientHeight-20);
+				
+			}
+			
+			Fireworm.prototype.show = function(){
+				this.randPos();
+				this.Node.style.left = this.posX + "px";
+				this.Node.style.top = this.posY + "px";
+				document.body.appendChild(this.Node);
+			}
+			
+			Fireworm.prototype.fly = function(){
+				this.randPos();
+				var _this = this;
+				startMove(this.Node,{"left":this.posX,"top":this.posY},function(){
+					_this.fly();
+				})
+				
+			}
+			for(var i = 0; i <30; i++){
+				var oworm = new Fireworm();
+				oworm.show();
+				oworm.fly();
+			}
+			
+			
+		</script>
+	</body>
+</html>
